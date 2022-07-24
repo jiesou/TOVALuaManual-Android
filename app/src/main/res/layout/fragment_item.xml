@@ -48,12 +48,11 @@
                 app:tint="@color/black_54" />
 
             <TextView
-                android:id="@+id/likes_text"
+                android:id="@+id/likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:maxLength="@integer/max_number_length"
-                android:textAppearance="?attr/textAppearanceButton"
                 tools:text="66666666" />
 
             <ImageView
@@ -66,7 +65,7 @@
                 app:tint="@color/black_54" />
 
             <TextView
-                android:id="@+id/comments_text"
+                android:id="@+id/comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -83,7 +82,7 @@
                 app:tint="@color/black_54" />
 
             <TextView
-                android:id="@+id/views_text"
+                android:id="@+id/views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"

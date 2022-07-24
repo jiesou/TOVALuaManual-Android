@@ -5,15 +5,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 
-import top.jiecs.tovalua.data.ListItemContent.ListItem
+import top.jiecs.tovalua.data.ListContent.Item
 import top.jiecs.tovalua.databinding.FragmentItemBinding
 
-/**
- * [RecyclerView.Adapter] 能显示 [ListItem].
- */
 class MyItemRecyclerViewAdapter(
-    private var values: List<ListItem>
+    private var values: List<Item>
 ) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
+
+    inner class ViewHolder(binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val titleView: TextView = binding.title
+        val descriptionView: TextView = binding.description
+        val likesView: TextView = binding.likes
+        val commentsView: TextView = binding.comments
+        val viewsView: TextView = binding.views
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // 将全局的监听传递给 ViewHolder
@@ -39,11 +44,4 @@ class MyItemRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val titleView: TextView = binding.title
-        val descriptionView: TextView = binding.description
-        val likesView: TextView = binding.likesText
-        val commentsView: TextView = binding.commentsText
-        val viewsView: TextView = binding.viewsText
-    }
 }
