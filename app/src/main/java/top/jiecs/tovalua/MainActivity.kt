@@ -2,6 +2,8 @@ package top.jiecs.tovalua
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         itemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ItemFragment
         serverBaseUrl = getString(R.string.server_base_url)
     }
@@ -32,8 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         if (ListContent.ITEMS.isEmpty()) {
             updateItem(0)
-        } else {
-            binding.progress.visibility = View.GONE
         }
         itemFragment.setOnScrollToBottomListener {
             page++
@@ -87,5 +88,19 @@ class MainActivity : AppCompatActivity() {
                 binding.progress.visibility = View.GONE
             }
         }.start()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_toolbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.search -> {
+                Snackbar.make(binding.root, "点击了搜索", Snackbar.LENGTH_LONG).show()
+            }
+        }
+        return true
     }
 }

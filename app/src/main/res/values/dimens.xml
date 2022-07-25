@@ -2,7 +2,7 @@
 <resources>
     <dimen name="card_margin">18dp</dimen>
     <dimen name="card_padding">16dp</dimen>
-    <dimen name="text_margin">10dp</dimen>
+    <dimen name="text_margin">5dp</dimen>
     <dimen name="icon_size">24dp</dimen>
     <integer name="max_number_length">4</integer>
     <!-- Default screen margins, per the Android Design guidelines. -->

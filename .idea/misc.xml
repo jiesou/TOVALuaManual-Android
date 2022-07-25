@@ -7,10 +7,12 @@
         <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.156640625" />
         <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1369535519125683" />
         <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/activity_main.xml" value="0.2683689421573736" />
-        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_item.xml" value="0.25" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_item.xml" value="0.1" />
         <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_item_list.xml" value="0.19519927536231885" />
         <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_item_list2.xml" value="0.182518115942029" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/nav_main.xml" value="0.5" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/menu/main_toolbar.xml" value="0.25" />
       </map>
     </option>
   </component>
