@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
 import org.json.JSONObject
@@ -23,13 +24,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         itemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ItemFragment
         serverBaseUrl = getString(R.string.server_base_url)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var page = 0
 
         if (ListContent.ITEMS.isEmpty()) {
             updateItem(0)
         } else {
             binding.progress.visibility = View.GONE
         }
+        itemFragment.setOnScrollToBottomListener {
+            page++
+            updateItem(page)
+        }
     }
+
 
     private fun updateItem(page: Int) {
         Log.d("MainActivity", "updateItem")
@@ -72,5 +83,4 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
     }
-
 }
