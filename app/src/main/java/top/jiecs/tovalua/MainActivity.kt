@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
             page++
             updateItem(page)
         }
+        itemFragment.setOnItemClickListener { item, i ->
+            Snackbar.make(binding.root, "点击了第${i}个item，id${item.id}", Snackbar.LENGTH_LONG).show()
+        }
     }
 
 
@@ -66,12 +69,14 @@ class MainActivity : AppCompatActivity() {
                                 item.getString("description"),
                                 item.getJSONObject("reaction").getInt("like"),
                                 item.getJSONObject("comments").getInt("length"),
-                                item.getInt("views")
+                                item.getInt("views"),
+                                item.getString("id")
                             )
                         )
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 Snackbar.make(binding.coordinator, "网络错误", Snackbar.LENGTH_INDEFINITE).setAction("重试") {
                     itemFragment.clearItems()
                     updateItem(1)

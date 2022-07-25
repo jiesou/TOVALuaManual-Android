@@ -49,6 +49,10 @@ class ItemFragment : Fragment() {
         })
     }
 
+    fun setOnItemClickListener(listener: (ListContent.Item, Int) -> Unit) {
+        (recyclerView.adapter as MyItemRecyclerViewAdapter).itemClickListener = listener
+    }
+
     fun addItems(items: List<ListContent.Item>) {
         val adapter = recyclerView.adapter as MyItemRecyclerViewAdapter
         val oldCount = adapter.itemCount
