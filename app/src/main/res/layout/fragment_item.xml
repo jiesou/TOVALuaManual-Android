@@ -7,87 +7,123 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/card_margin">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/card_padding">
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            app:layout_constraintStart_toStartOf="@+id/user_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/user_avatar"
             tools:text="Title blalalalalal" />
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/card_padding"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textAppearance="?attr/textAppearanceListItemSecondary"
-            tools:text="Description description description description description description description description description description description description description description description description description description description" />
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description " />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/likes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
-            android:gravity="center_vertical">
+            android:layout_marginTop="@dimen/icon_margin"
+            android:layout_marginBottom="@dimen/icon_margin"
+            android:drawablePadding="@dimen/icon_margin"
+            android:gravity="center_vertical"
+            android:maxLength="@integer/max_number_length"
+            android:singleLine="true"
+            app:drawableStartCompat="@drawable/ic_baseline_thumb_up_24"
+            app:drawableTint="?attr/colorControlNormal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/comments"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            tools:text="66666666" />
 
-            <ImageView
-                android:id="@+id/likes_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/like"
-                android:src="@drawable/ic_baseline_thumb_up_24"
-                app:tint="@color/black_54" />
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/icon_margin"
+            android:gravity="center_vertical"
+            android:maxLength="@integer/max_number_length"
+            android:singleLine="true"
+            app:drawableStartCompat="@drawable/ic_baseline_comment_24"
+            app:drawableTint="?attr/colorControlNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/likes"
+            app:layout_constraintEnd_toStartOf="@+id/views"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/likes"
+            app:layout_constraintTop_toTopOf="@+id/likes"
+            tools:text="23333333" />
 
-            <TextView
-                android:id="@+id/likes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:maxLength="@integer/max_number_length"
-                tools:text="66666666" />
+        <TextView
+            android:id="@+id/views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/icon_margin"
+            android:gravity="center_vertical"
+            android:maxLength="@integer/max_number_length"
+            android:singleLine="true"
+            app:drawableStartCompat="@drawable/ic_baseline_remove_red_eye_24"
+            app:drawableTint="?attr/colorControlNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/comments"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comments"
+            app:layout_constraintTop_toTopOf="@+id/comments"
+            tools:text="88888888" />
 
-            <ImageView
-                android:id="@+id/comments_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/comment"
-                android:src="@drawable/ic_baseline_comment_24"
-                app:tint="@color/black_54" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/card_padding"
+            android:padding="@dimen/avatar_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circle"
+            tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:maxLength="@integer/max_number_length"
-                tools:text="23333333" />
+        <TextView
+            android:id="@+id/user_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/icon_margin"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            app:layout_constraintStart_toEndOf="@+id/user_avatar"
+            app:layout_constraintTop_toTopOf="@+id/user_avatar"
+            tools:text="User Nick Name" />
 
-            <ImageView
-                android:id="@+id/views_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/views"
-                android:src="@drawable/ic_baseline_remove_red_eye_24"
-                app:tint="@color/black_54" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            app:layout_constraintStart_toStartOf="@+id/user_nick"
+            app:layout_constraintTop_toBottomOf="@+id/user_nick"
+            tools:text="01.01-23:59" />
 
-            <TextView
-                android:id="@+id/views"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:maxLength="@integer/max_number_length"
-                tools:text="66666666" />
-
-        </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

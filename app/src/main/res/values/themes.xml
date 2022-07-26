@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.TOVALua手册" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.TOVALua手册" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>

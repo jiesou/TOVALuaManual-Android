@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
@@ -27,6 +28,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         itemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ItemFragment
         serverBaseUrl = getString(R.string.server_base_url)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24)
+        }
     }
 
     override fun onResume() {
@@ -35,6 +40,8 @@ class MainActivity : AppCompatActivity() {
 
         if (ListContent.ITEMS.isEmpty()) {
             updateItem(0)
+        } else {
+            binding.progress.visibility = View.GONE
         }
         itemFragment.setOnScrollToBottomListener {
             page++
@@ -44,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(binding.root, "点击了第${i}个item，id${item.id}", Snackbar.LENGTH_LONG).show()
         }
     }
-
 
     private fun updateItem(page: Int) {
         Log.d("MainActivity", "updateItem")
@@ -56,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 .url(serverBaseUrl + "item/list?page=$page")
                 .build()
             val addItemList: MutableList<ListContent.Item> = mutableListOf()
-            try {
+//            try {
                 client.newCall(httpRequest).execute().use {
                     val json = JSONObject(it.body!!.string())
                     // 获取 data 子项并遍历添加到 ITEMS 中
@@ -68,21 +74,24 @@ class MainActivity : AppCompatActivity() {
                             ListContent.Item(
                                 item.getString("title"),
                                 item.getString("description"),
+                                item.getJSONObject("user").getString("name"),
+                                item.getJSONObject("user").getString("avatar"),
                                 item.getJSONObject("reaction").getInt("like"),
                                 item.getJSONObject("comments").getInt("length"),
                                 item.getInt("views"),
+                                item.getLong("timeCreate"),
                                 item.getString("id")
                             )
                         )
                     }
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Snackbar.make(binding.coordinator, "网络错误", Snackbar.LENGTH_INDEFINITE).setAction("重试") {
-                    itemFragment.clearItems()
-                    updateItem(1)
-                }.show()
-            }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                Snackbar.make(binding.coordinator, "网络错误", Snackbar.LENGTH_INDEFINITE).setAction("重试") {
+//                    itemFragment.clearItems()
+//                    updateItem(1)
+//                }.show()
+//            }
             runOnUiThread {
                 itemFragment.addItems(addItemList)
                 binding.progress.visibility = View.GONE
@@ -97,6 +106,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> binding.drawerLayout.openDrawer(GravityCompat.START)
             R.id.search -> {
                 Snackbar.make(binding.root, "点击了搜索", Snackbar.LENGTH_LONG).show()
             }
