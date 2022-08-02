@@ -62,36 +62,47 @@ class MainActivity : AppCompatActivity() {
                 .url(serverBaseUrl + "item/list?page=$page")
                 .build()
             val addItemList: MutableList<ListContent.Item> = mutableListOf()
-//            try {
+            try {
                 client.newCall(httpRequest).execute().use {
                     val json = JSONObject(it.body!!.string())
-                    // 获取 data 子项并遍历添加到 ITEMS 中
-                    val itemList = json.getJSONObject("data").getJSONArray("items")
-                    for (i in 0 until itemList.length()) {
-                        val item = itemList.getJSONObject(i)
-                        // 调用 addItem 方法添加 item 到 ITEMS 中，并通知更新
-                        addItemList.add(
-                            ListContent.Item(
-                                item.getString("title"),
-                                item.getString("description"),
-                                item.getJSONObject("user").getString("name"),
-                                item.getJSONObject("user").getString("avatar"),
-                                item.getJSONObject("reaction").getInt("like"),
-                                item.getJSONObject("comments").getInt("length"),
-                                item.getInt("views"),
-                                item.getLong("timeCreate"),
-                                item.getString("id")
+                    val code = json.getInt("code")
+                    if (code >= 0) {
+                        // 获取 data 子项并遍历添加到 ITEMS 中
+                        val itemList = json.getJSONObject("data").getJSONArray("items")
+                        for (i in 0 until itemList.length()) {
+                            val item = itemList.getJSONObject(i)
+                            // 调用 addItem 方法添加 item 到 ITEMS 中，并通知更新
+                            addItemList.add(
+                                ListContent.Item(
+                                    item.getString("title"),
+                                    item.getString("description"),
+                                    item.getJSONObject("user").getString("name"),
+                                    item.getJSONObject("user").getString("avatar"),
+                                    item.getJSONObject("reaction").getInt("like"),
+                                    item.getJSONObject("comments").getInt("length"),
+                                    item.getInt("views"),
+                                    item.getLong("timeCreate"),
+                                    item.getString("id")
+                                )
                             )
-                        )
+                        }
+                    } else {
+                        Snackbar.make(
+                            binding.coordinator, "意料之外的错误 $code ${json.getString("message")}",
+                            Snackbar.LENGTH_INDEFINITE
+                        ).setAction("重试") {
+                            itemFragment.clearItems()
+                            updateItem(1)
+                        }.show()
                     }
                 }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                Snackbar.make(binding.coordinator, "网络错误", Snackbar.LENGTH_INDEFINITE).setAction("重试") {
-//                    itemFragment.clearItems()
-//                    updateItem(1)
-//                }.show()
-//            }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Snackbar.make(binding.coordinator, "网络错误", Snackbar.LENGTH_INDEFINITE).setAction("重试") {
+                    itemFragment.clearItems()
+                    updateItem(1)
+                }.show()
+            }
             runOnUiThread {
                 itemFragment.addItems(addItemList)
                 binding.progress.visibility = View.GONE
