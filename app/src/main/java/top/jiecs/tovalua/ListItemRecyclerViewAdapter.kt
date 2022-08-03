@@ -10,6 +10,7 @@ import com.google.android.material.imageview.ShapeableImageView
 
 import top.jiecs.tovalua.data.ListContent.Item
 import top.jiecs.tovalua.databinding.FragmentListItemItemBinding
+import  top.jiecs.tovalua.databinding.UnitUserInfoBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,17 +37,17 @@ class ListItemRecyclerViewAdapter(
         return viewHolder
     }
 
-
     inner class ViewHolder(binding: FragmentListItemItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val unitUserInfoBinding = UnitUserInfoBinding.bind(binding.root)
         val cardView: MaterialCardView = binding.card
         val titleView: TextView = binding.title
         val descriptionView: TextView = binding.description
-        val userNickView: TextView = binding.includeUserInfo.userNick
-        val userAvatarView: ShapeableImageView = binding.includeUserInfo.userAvatar
+        val userNickView: TextView = unitUserInfoBinding.userNick
+        val userAvatarView: ShapeableImageView = unitUserInfoBinding.userAvatar
         val likesView: TextView = binding.likes
         val commentsView: TextView = binding.comments
         val viewsView: TextView = binding.views
-        val timeView: TextView = binding.includeUserInfo.time
+        val timeView: TextView = unitUserInfoBinding.time
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

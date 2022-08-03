@@ -24,7 +24,8 @@
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_avatar"
-            tools:text="Title blalalalalal" />
+            tools:text="Title blalalalalal"
+            tools:ignore="UnknownIdInLayout" />
 
         <TextView
             android:id="@+id/description"
@@ -95,7 +96,6 @@
             tools:text="88888888" />
 
         <include
-            android:id="@+id/include_user_info"
             layout="@layout/unit_user_info" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
