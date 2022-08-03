@@ -28,10 +28,10 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/item_list_fragment"
-            android:name="top.jiecs.tovalua.ItemFragment"
+            android:name="top.jiecs.tovalua.ListItemFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_item_list"
+            tools:layout="@layout/fragment_list_item"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <ProgressBar

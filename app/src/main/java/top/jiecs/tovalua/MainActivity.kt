@@ -1,5 +1,6 @@
 package top.jiecs.tovalua
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -7,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.*
 import org.json.JSONObject
@@ -18,7 +18,7 @@ import top.jiecs.tovalua.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var itemFragment: ItemFragment
+    private lateinit var itemFragment: ListItemFragment
     private lateinit var serverBaseUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        itemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ItemFragment
+        itemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ListItemFragment
         serverBaseUrl = getString(R.string.server_base_url)
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
@@ -47,8 +47,9 @@ class MainActivity : AppCompatActivity() {
             page++
             updateItem(page)
         }
-        itemFragment.setOnItemClickListener { item, i ->
-            Snackbar.make(binding.root, "点击了第${i}个item，id${item.id}", Snackbar.LENGTH_LONG).show()
+        itemFragment.setOnItemClickListener { item, index ->
+            startActivity(Intent(this, PostActivity::class.java).putExtra("item", item))
+            Snackbar.make(binding.root, "点击了第${index}个item，id${item.id}", Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                         Snackbar.make(
                             binding.coordinator, "意料之外的错误 $code ${json.getString("message")}",
                             Snackbar.LENGTH_INDEFINITE
-                        ).setAction("重试") {
+                        ).setAction(getString(R.string.retry)) {
                             itemFragment.clearItems()
                             updateItem(1)
                         }.show()

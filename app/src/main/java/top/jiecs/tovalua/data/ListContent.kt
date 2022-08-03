@@ -1,6 +1,7 @@
 package top.jiecs.tovalua.data
 
-import top.jiecs.tovalua.units.User
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 object ListContent {
@@ -13,8 +14,11 @@ object ListContent {
     /**
      * 首页帖子流每个帖子的对象
      */
-    data class Item(val title: String, val description: String,
-                    val userNick: String, val userAvatar: String,
-                    val likes: Int, val comments: Int, val views: Int,
-                    val time: Long ,val id: String)
+    @Parcelize
+    data class Item(
+        val title: String, val description: String,
+        val userNick: String, val userAvatar: String,
+        val likes: Int, val comments: Int, val views: Int,
+        val time: Long, val id: String
+    ) : Parcelable
 }

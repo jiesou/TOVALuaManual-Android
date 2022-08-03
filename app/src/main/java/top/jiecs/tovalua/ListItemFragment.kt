@@ -13,7 +13,7 @@ import top.jiecs.tovalua.data.ListContent
 /**
  * 展示帖子列表的 fragment
  */
-class ItemFragment : Fragment() {
+class ListItemFragment : Fragment() {
 
     private var columnCount = 1
     private lateinit var recyclerView: RecyclerView
@@ -22,7 +22,7 @@ class ItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        recyclerView = inflater.inflate(R.layout.fragment_item_list, container, false) as RecyclerView
+        recyclerView = inflater.inflate(R.layout.fragment_list_item, container, false) as RecyclerView
         // 设置 RecyclerView
         with(recyclerView) {
             layoutManager = when {
@@ -30,7 +30,7 @@ class ItemFragment : Fragment() {
                 else -> GridLayoutManager(context, columnCount)
             }
             // 设置适配器
-            adapter = MyItemRecyclerViewAdapter(ListContent.ITEMS)
+            adapter = ListItemRecyclerViewAdapter(ListContent.ITEMS)
         }
         return recyclerView
     }
@@ -50,18 +50,18 @@ class ItemFragment : Fragment() {
     }
 
     fun setOnItemClickListener(listener: (ListContent.Item, Int) -> Unit) {
-        (recyclerView.adapter as MyItemRecyclerViewAdapter).itemClickListener = listener
+        (recyclerView.adapter as ListItemRecyclerViewAdapter).itemClickListener = listener
     }
 
     fun addItems(items: List<ListContent.Item>) {
-        val adapter = recyclerView.adapter as MyItemRecyclerViewAdapter
+        val adapter = recyclerView.adapter as ListItemRecyclerViewAdapter
         val oldCount = adapter.itemCount
         ListContent.ITEMS.addAll(items)
         adapter.notifyItemRangeInserted(oldCount, ListContent.ITEMS.size - 1)
     }
 
     fun clearItems() {
-        val adapter = recyclerView.adapter as MyItemRecyclerViewAdapter
+        val adapter = recyclerView.adapter as ListItemRecyclerViewAdapter
         val oldCount = adapter.itemCount
         ListContent.ITEMS.clear()
         adapter.notifyItemRangeRemoved(0, oldCount)
