@@ -1,24 +1,16 @@
-name: Android CI
+name: Android CI - Debug
 
 on:
   push:
-    branches: [ "main","dev" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main","dev" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Decode signing key
-        if: branch == "main"
-        run: |
-          base64 -d $RELEASE_SIGNING_KEY > release.jks
-          echo $RELEASE_SIGNING_KEY > keystore.properties
-        env:
-          RELEASE_SIGNING_KEY: ${{ secrets.RELEASE_SIGNING_KEY }}
-          RELEASE_KEY_PROPERTIES: ${{ secrets.RELEASE_KEY_PROPERTIES }}
 
       - name: set up JDK 11
         uses: actions/setup-java@v3
