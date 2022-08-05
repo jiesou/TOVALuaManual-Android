@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/activity_post.xml" value="0.10760551608859173" />
-        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_list_item_item.xml" value="0.10760551608859173" />
-        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_post.xml" value="0.1" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_list_item_item.xml" value="0.25" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_post.xml" value="0.15" />
+        <entry key="..\:/Dev/TOVALuaManual/app/src/main/res/layout/fragment_post_details.xml" value="0.25" />
       </map>
     </option>
   </component>

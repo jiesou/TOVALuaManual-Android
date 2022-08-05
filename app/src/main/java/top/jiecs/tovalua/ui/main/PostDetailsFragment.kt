@@ -7,43 +7,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import top.jiecs.tovalua.databinding.FragmentPostBinding
+import com.bumptech.glide.Glide
+import top.jiecs.tovalua.data.ListContent
+import top.jiecs.tovalua.databinding.FragmentPostDetailsBinding
+import top.jiecs.tovalua.databinding.UnitUserInfoBinding
 
-class PostDetailsFragment : Fragment() {
+class PostDetailsFragment(var item: ListContent.Item) : Fragment() {
 
     private lateinit var viewModel: PostDetailsViewModel
-    private lateinit var binding: FragmentPostBinding
+    private lateinit var binding: FragmentPostDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel =
-            activity?.let {
-                ViewModelProvider(it)
-            }?.get(PostDetailsViewModel::class.java)!!
+            ViewModelProvider(this, PostDetailsViewModelFactory(item))[PostDetailsViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPostBinding.inflate(inflater, container, false)
+        binding = FragmentPostDetailsBinding.inflate(inflater, container, false)
         val root = binding.root
+        val unitUserInfoBinding = UnitUserInfoBinding.bind(binding.root)
 
-        binding.userNick.text = viewModel.item.value?.userNick
-        Log.d("PostDetailsFragment", "item: ${viewModel.item}")
+        val item = viewModel.item.value!!
+        unitUserInfoBinding.userNick.text = item.userNick
+        Glide.with(this).load(item.userAvatar).into(unitUserInfoBinding.userAvatar)
         return root
     }
 
-    companion object {
-        /**
-         * 返回一个这个 Fragment 页的新实例
-         */
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): PostDetailsFragment {
-            return when (sectionNumber) {
-                1 -> PostDetailsFragment()
-                else -> PostDetailsFragment()
-            }
-        }
-    }
 }
