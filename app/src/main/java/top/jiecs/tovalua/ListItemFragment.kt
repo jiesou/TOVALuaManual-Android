@@ -30,7 +30,7 @@ class ListItemFragment : Fragment() {
                 else -> GridLayoutManager(context, columnCount)
             }
             // 设置适配器
-            adapter = ListItemRecyclerViewAdapter(ListContent.ITEMS)
+            adapter = ListItemRecyclerViewAdapter(ListContent.Posts)
         }
         return recyclerView
     }
@@ -49,21 +49,21 @@ class ListItemFragment : Fragment() {
         })
     }
 
-    fun setOnItemClickListener(listener: (ListContent.Item, Int) -> Unit) {
+    fun setOnItemClickListener(listener: (ListContent.Post, Int) -> Unit) {
         (recyclerView.adapter as ListItemRecyclerViewAdapter).itemClickListener = listener
     }
 
-    fun addItems(items: List<ListContent.Item>) {
+    fun addItems(posts: List<ListContent.Post>) {
         val adapter = recyclerView.adapter as ListItemRecyclerViewAdapter
         val oldCount = adapter.itemCount
-        ListContent.ITEMS.addAll(items)
-        adapter.notifyItemRangeInserted(oldCount, ListContent.ITEMS.size - 1)
+        ListContent.Posts.addAll(posts)
+        adapter.notifyItemRangeInserted(oldCount, ListContent.Posts.size - 1)
     }
 
     fun clearItems() {
         val adapter = recyclerView.adapter as ListItemRecyclerViewAdapter
         val oldCount = adapter.itemCount
-        ListContent.ITEMS.clear()
+        ListContent.Posts.clear()
         adapter.notifyItemRangeRemoved(0, oldCount)
     }
 }

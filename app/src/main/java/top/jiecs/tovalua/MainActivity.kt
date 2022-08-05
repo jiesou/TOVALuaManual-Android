@@ -2,7 +2,6 @@ package top.jiecs.tovalua
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,12 +12,13 @@ import okhttp3.*
 import org.json.JSONObject
 import top.jiecs.tovalua.data.ListContent
 import top.jiecs.tovalua.databinding.ActivityMainBinding
+import top.jiecs.tovalua.ui.post.PostActivity
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var itemFragment: ListItemFragment
+    private lateinit var listItemFragment: ListItemFragment
     private lateinit var serverBaseUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        itemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ListItemFragment
+        listItemFragment = supportFragmentManager.findFragmentById(R.id.item_list_fragment) as ListItemFragment
         serverBaseUrl = getString(R.string.server_base_url)
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
@@ -36,54 +36,56 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // 初始化页数为 0
         var page = 0
 
-        if (ListContent.ITEMS.isEmpty()) {
-            updateItem(0)
+        if (ListContent.Posts.isEmpty()) {
+            updatePost(0)
         } else {
             binding.progress.visibility = View.GONE
         }
-        itemFragment.setOnScrollToBottomListener {
+
+        // 滚到底加载下一页
+        listItemFragment.setOnScrollToBottomListener {
             page++
-            updateItem(page)
+            updatePost(page)
         }
-        itemFragment.setOnItemClickListener { item, index ->
-            startActivity(Intent(this, PostActivity::class.java).putExtra("item", item))
-            Snackbar.make(binding.root, "点击了第${index}个item，id${item.id}", Snackbar.LENGTH_LONG).show()
+        // 点击事件
+        listItemFragment.setOnItemClickListener { post, _ ->
+            startActivity(Intent(this, PostActivity::class.java).putExtra("post", post))
         }
     }
 
-    private fun updateItem(page: Int) {
-        Log.d("MainActivity", "updateItem")
+    private fun updatePost(page: Int) {
         binding.progress.visibility = View.VISIBLE
         Thread {
             // OkHttp
             val client = OkHttpClient()
             val httpRequest = Request.Builder()
-                .url(serverBaseUrl + "item/list?page=$page")
+                .url(serverBaseUrl + "post/list?page=$page")
                 .build()
-            val addItemList: MutableList<ListContent.Item> = mutableListOf()
+            val addPostList: MutableList<ListContent.Post> = mutableListOf()
             try {
                 client.newCall(httpRequest).execute().use {
                     val json = JSONObject(it.body!!.string())
                     val code = json.getInt("code")
                     if (code >= 0) {
                         // 获取 data 子项并遍历添加到 ITEMS 中
-                        val itemList = json.getJSONObject("data").getJSONArray("items")
-                        for (i in 0 until itemList.length()) {
-                            val item = itemList.getJSONObject(i)
+                        val postList = json.getJSONObject("data").getJSONArray("posts")
+                        for (i in 0 until postList.length()) {
+                            val post = postList.getJSONObject(i)
                             // 调用 addItem 方法添加 item 到 ITEMS 中，并通知更新
-                            addItemList.add(
-                                ListContent.Item(
-                                    item.getString("title"),
-                                    item.getString("description"),
-                                    item.getJSONObject("user").getString("name"),
-                                    item.getJSONObject("user").getString("avatar"),
-                                    item.getJSONObject("reaction").getInt("like"),
-                                    item.getJSONObject("comments").getInt("length"),
-                                    item.getInt("views"),
-                                    item.getLong("timeCreate"),
-                                    item.getString("id")
+                            addPostList.add(
+                                ListContent.Post(
+                                    post.getString("title"),
+                                    post.getString("description"),
+                                    post.getJSONObject("user").getString("name"),
+                                    post.getJSONObject("user").getString("avatar"),
+                                    post.getJSONObject("reaction").getInt("like"),
+                                    post.getJSONObject("comments").getInt("length"),
+                                    post.getInt("views"),
+                                    post.getLong("timeCreate"),
+                                    post.getString("id")
                                 )
                             )
                         }
@@ -92,20 +94,21 @@ class MainActivity : AppCompatActivity() {
                             binding.coordinator, "意料之外的错误 $code ${json.getString("message")}",
                             Snackbar.LENGTH_INDEFINITE
                         ).setAction(getString(R.string.retry)) {
-                            itemFragment.clearItems()
-                            updateItem(1)
+                            listItemFragment.clearItems()
+                            updatePost(1)
                         }.show()
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Snackbar.make(binding.coordinator, "网络错误", Snackbar.LENGTH_INDEFINITE).setAction("重试") {
-                    itemFragment.clearItems()
-                    updateItem(1)
-                }.show()
+                Snackbar.make(binding.coordinator, "网络错误 ${e.message}", Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.retry)) {
+                        listItemFragment.clearItems()
+                        updatePost(1)
+                    }.show()
             }
             runOnUiThread {
-                itemFragment.addItems(addItemList)
+                listItemFragment.addItems(addPostList)
                 binding.progress.visibility = View.GONE
             }
         }.start()

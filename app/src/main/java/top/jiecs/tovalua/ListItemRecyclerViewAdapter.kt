@@ -8,17 +8,17 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 
-import top.jiecs.tovalua.data.ListContent.Item
+import top.jiecs.tovalua.data.ListContent.Post
 import top.jiecs.tovalua.databinding.FragmentListItemItemBinding
 import  top.jiecs.tovalua.databinding.UnitUserInfoBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ListItemRecyclerViewAdapter(
-    private var values: List<Item>
+    private var values: List<Post>
 ) : RecyclerView.Adapter<ListItemRecyclerViewAdapter.ViewHolder>() {
 
-    var itemClickListener: ((Item, Int) -> Unit)? = null
+    var itemClickListener: ((Post, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // 将全局的监听传递给 ViewHolder

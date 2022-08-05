@@ -5,12 +5,12 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.PostDetailsFragment">
+    tools:context=".ui.post.PostDetailsFragment">
 
-    <include
-        layout="@layout/unit_user_info" />
+    <include layout="@layout/unit_user_info" />
 
     <WebView
+        android:id="@+id/details_web"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,7 +1,6 @@
-package top.jiecs.tovalua.ui.main
+package top.jiecs.tovalua.ui.post
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,10 @@ import com.bumptech.glide.Glide
 import top.jiecs.tovalua.data.ListContent
 import top.jiecs.tovalua.databinding.FragmentPostDetailsBinding
 import top.jiecs.tovalua.databinding.UnitUserInfoBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
-class PostDetailsFragment(var item: ListContent.Item) : Fragment() {
+class PostDetailsFragment(private var post: ListContent.Post) : Fragment() {
 
     private lateinit var viewModel: PostDetailsViewModel
     private lateinit var binding: FragmentPostDetailsBinding
@@ -20,7 +21,7 @@ class PostDetailsFragment(var item: ListContent.Item) : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel =
-            ViewModelProvider(this, PostDetailsViewModelFactory(item))[PostDetailsViewModel::class.java]
+            ViewModelProvider(this, PostDetailsViewModelFactory(post))[PostDetailsViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -31,9 +32,10 @@ class PostDetailsFragment(var item: ListContent.Item) : Fragment() {
         val root = binding.root
         val unitUserInfoBinding = UnitUserInfoBinding.bind(binding.root)
 
-        val item = viewModel.item.value!!
-        unitUserInfoBinding.userNick.text = item.userNick
-        Glide.with(this).load(item.userAvatar).into(unitUserInfoBinding.userAvatar)
+        val post = viewModel.post.value!!
+        unitUserInfoBinding.userNick.text = post.userNick
+        Glide.with(this).load(post.userAvatar).into(unitUserInfoBinding.userAvatar)
+        unitUserInfoBinding.time.text = SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.CHINA).format(post.time)
         return root
     }
 
